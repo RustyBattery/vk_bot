@@ -1,0 +1,94 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./app/Dockerfile
+        container_name: app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ..:/var/www
+        expose:
+            - "9000"
+        links:
+            - db
+        depends_on:
+            - db
+        networks:
+            - main
+
+    nginx:
+        image: nginx
+        container_name: nginx
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ..:/var/www
+            - ./nginx:/etc/nginx/conf.d
+            - certbot-etc:/etc/letsencrypt
+        depends_on:
+            - app
+        networks:
+            - main
+
+    db:
+        image: postgres:18
+        env_file: .env
+        container_name: db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - postgres:/var/lib/postgresql
+        ports:
+            - "5432:5432"
+        networks:
+            - main
+
+    certbot:
+        image: certbot/certbot
+        container_name: certbot
+        volumes:
+            - certbot-etc:/etc/letsencrypt
+            - certbot-var:/var/lib/letsencrypt
+            - ./nginx:/etc/nginx/conf.d
+            - ..:/var/www
+        depends_on:
+            - nginx
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done'"
+        networks:
+            - main
+
+    certbot-init:
+        image: certbot/certbot
+        container_name: certbot-init
+        volumes:
+            - certbot-etc:/etc/letsencrypt
+            - certbot-var:/var/lib/letsencrypt
+            - ..:/var/www
+            - ./nginx:/etc/nginx/conf.d
+        depends_on:
+            - nginx
+        command: >
+            certonly --webroot
+            -w /var/www/public
+            -d zm61aran.ru -d www.zm61aran.ru
+            --email adukova.meow@gmail.com
+            --agree-tos
+            --no-eff-email
+            -v
+        networks:
+            - main
+
+volumes:
+    postgres:
+    certbot-etc:
+    certbot-var:
+
+networks:
+    main:
+        driver: bridge
