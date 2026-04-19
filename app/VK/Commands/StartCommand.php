@@ -24,16 +24,16 @@ class StartCommand extends Command
             [new ButtonDTO(
                 label: 'Интерактивные модули',
                 payload: json_encode(['command' => 'modules']),
-            ),
-            new ButtonDTO(
+            )],
+            [new ButtonDTO(
                 label: 'Мой прогресс',
                 payload: json_encode(['command' => 'progress']),
             )],
             [new ButtonDTO(
                 label: 'Журнал практики',
                 payload: json_encode(['command' => 'practices']),
-            ),
-            new ButtonDTO(
+            )],
+            [new ButtonDTO(
                 label: 'Дневник размышлений',
                 payload: json_encode(['command' => 'diary']),
             )],
