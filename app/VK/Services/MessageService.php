@@ -8,6 +8,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Promises\LazyPromise;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
@@ -34,8 +35,14 @@ class MessageService
             $data['keyboard'] = json_encode($keyboard);
         }
 
-        return Http::withHeaders([
+        Log::debug('vk_req', ['data' => $data, 'url' => $url]);
+
+        $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . env('VK_BOT_ACCESS_TOKEN'),
         ])->withQueryParameters($data)->get($url);
+
+        Log::debug('vk_resp', [$response]);
+
+        return $response;
     }
 }
