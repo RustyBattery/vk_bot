@@ -35,6 +35,6 @@ class MessageService
 
         return Http::withHeaders([
             'Authorization' => 'Bearer ' . env('VK_BOT_ACCESS_TOKEN'),
-        ])->post($url, $data);
+        ])->withQueryParameters($data)->get($url);
     }
 }
