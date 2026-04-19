@@ -32,7 +32,7 @@ class MessageService
         ];
 
         if (!empty($keyboard)) {
-            $data['keyboard'] = json_encode($keyboard);
+//            $data['keyboard'] = json_encode($keyboard);
         }
 
         Log::debug('vk_req', ['data' => $data, 'url' => $url]);
