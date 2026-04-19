@@ -21,13 +21,13 @@ class CallbackController extends Controller
 
         $type = $data['type'];
 
-        if ($type == 'message_new' && isset($payload->command)) {
+        if ($type == 'message_new') {
             $message = $data['object']['message'];
             $user_id = $message['from_id'];
             $text = $message['text'];
             $payload = json_decode($message['payload']);
 
-            if($payload->command == 'start'){
+            if(isset($payload->command) && $payload->command == 'start'){
                 $command = new StartCommand(new MessageService());
                 $command->handle($user_id);
             }
