@@ -24,6 +24,7 @@ class MessageService
         $url = env('VK_API_ENDPOINT') . '/messages.send';
 
         $data = [
+            'v' => env('VK_API_VERSION'),
             'user_id' => $user_id,
             'random_id' => $random_id,
             'message' => $message,
