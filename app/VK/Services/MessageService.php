@@ -26,6 +26,7 @@ class MessageService
 
         $data = [
             'v' => env('VK_API_VERSION'),
+            'access_token' => env('VK_API_ACCESS_TOKEN'),
             'user_id' => $user_id,
             'random_id' => $random_id,
             'message' => $message,
