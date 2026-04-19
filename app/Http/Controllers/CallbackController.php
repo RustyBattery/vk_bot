@@ -20,13 +20,13 @@ class CallbackController extends Controller
         Log::debug('callback', [$data]);
 
         $type = $data['type'];
-        $message = $data['object']['message'];
-
-        $user_id = $message['from_id'];
-        $text = $message['text'];
-        $payload = json_decode($message['payload']);
 
         if ($type == 'message_new' && isset($payload->command)) {
+            $message = $data['object']['message'];
+            $user_id = $message['from_id'];
+            $text = $message['text'];
+            $payload = json_decode($message['payload']);
+
             if($payload->command == 'start'){
                 $command = new StartCommand(new MessageService());
                 $command->handle($user_id);
