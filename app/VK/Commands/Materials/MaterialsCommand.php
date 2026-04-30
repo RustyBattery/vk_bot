@@ -18,19 +18,25 @@ class MaterialsCommand extends Command
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
-        $buttons = [];
-
         $materials = Material::all();
 
-        foreach ($materials as $material) {
-            $buttons[] = [new ButtonDTO(
-                label: $material->id . '. ' . $material->title,
-                payload: json_encode(['command' => 'material_item', 'data' => ['id' => $material->id]]),
-            )];
-        }
+        $chunks = $materials->chunk(6);
 
         $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:";
 
-        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
+        foreach ($chunks as $chunk) {
+            $buttons = [];
+
+            foreach ($chunk as $material) {
+                $buttons[] = [new ButtonDTO(
+                    label: $material->id . '. ' . $material->title,
+                    payload: json_encode(['command' => 'material_item', 'data' => ['id' => $material->id]]),
+                )];
+            }
+
+            $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
+
+            $message = "Содержание:";
+        }
     }
 }
