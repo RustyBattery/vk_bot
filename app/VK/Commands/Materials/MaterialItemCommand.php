@@ -29,8 +29,13 @@ class MaterialItemCommand extends Command
         $buttons = [];
 
         foreach ($material->blocks as $block) {
+            $label = $block->title;
+            if (mb_strlen($label) > 40) {
+                $label = mb_substr($label, 0, 37) . '...';
+            }
+
             $buttons[] = [new ButtonDTO(
-                label: $block->title,
+                label: $label,
                 payload: json_encode(['command' => 'material_block', 'data' => ['id' => $block->id]]),
             )];
         }
