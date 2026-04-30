@@ -22,21 +22,33 @@ class MaterialsCommand extends Command
 
         $chunks = $materials->chunk(6);
 
-        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:";
+        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:\n\n";
+
+        foreach ($materials as $material) {
+            $message .= $material->id . ". " . $material->title . "\n\n";
+        }
+
+        $message .= "\n\nРазделы:";
 
         foreach ($chunks as $chunk) {
             $buttons = [];
 
             foreach ($chunk as $material) {
+
+                $label = $material->id . '. ' . $material->title;
+                if (mb_strlen($label) > 40) {
+                    $label = mb_substr($label, 0, 37) . '...';
+                }
+
                 $buttons[] = [new ButtonDTO(
-                    label: $material->id . '. ' . $material->title,
+                    label: $label,
                     payload: json_encode(['command' => 'material_item', 'data' => ['id' => $material->id]]),
                 )];
             }
 
             $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
 
-            $message = "Содержание:";
+            $message = "Разделы:";
         }
     }
 }
