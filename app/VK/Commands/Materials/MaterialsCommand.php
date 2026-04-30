@@ -23,10 +23,10 @@ class MaterialsCommand extends Command
         $materials = Material::all();
 
         foreach ($materials as $material) {
-            $buttons[] = new ButtonDTO(
+            $buttons[] = [new ButtonDTO(
                 label: $material->id . '. ' . $material->title,
                 payload: json_encode(['command' => 'material_item', 'data' => ['id' => $material->id]]),
-            );
+            )];
         }
 
         $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:";

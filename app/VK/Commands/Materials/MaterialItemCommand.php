@@ -29,10 +29,10 @@ class MaterialItemCommand extends Command
         $buttons = [];
 
         foreach ($material->blocks as $block) {
-            $buttons[] = new ButtonDTO(
+            $buttons[] = [new ButtonDTO(
                 label: $block->title,
                 payload: json_encode(['command' => 'material_block', 'data' => ['id' => $block->id]]),
-            );
+            )];
         }
 
         $message = $material->title . "\n\n" . $material->text;
