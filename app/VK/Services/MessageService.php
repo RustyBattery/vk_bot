@@ -34,14 +34,11 @@ class MessageService
 
         if (!empty($keyboard)) {
             $data['keyboard'] = json_encode($keyboard);
-//            Log::debug('keyboard', ['keyboard' => $keyboard, 'json' => json_encode($keyboard)]);
         }
 
         Log::debug('vk_req', ['data' => $data, 'url' => $url]);
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('VK_BOT_ACCESS_TOKEN'),
-        ])->withQueryParameters($data)->get($url);
+        $response = Http::asForm()->post($url, $data);
 
         Log::debug('vk_resp', [$response]);
 
