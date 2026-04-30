@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CallbackRequest;
-use App\VK\Commands\StartCommand;
-use App\VK\Services\MessageService;
+use App\VK\Factories\CommandFactory;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Log;
 
@@ -13,7 +12,7 @@ class CallbackController extends Controller
     /**
      * @throws ConnectionException
      */
-    public function handle(CallbackRequest $request)
+    public function handle(CallbackRequest $request, CommandFactory $commandFactory)
     {
         $data = $request->validated();
 
@@ -23,13 +22,15 @@ class CallbackController extends Controller
 
         if ($type == 'message_new') {
             $message = $data['object']['message'];
+
             $user_id = $message['from_id'];
             $text = $message['text'];
-            $payload = json_decode($message['payload']);
 
-            if(isset($payload->command) && $payload->command == 'start'){
-                $command = new StartCommand(new MessageService());
-                $command->handle($user_id);
+            $payload = isset($message['payload']) ? json_decode($message['payload']) : null;
+
+            if (!empty($payload->command ?? null)) {
+                $command = $commandFactory->make($payload->command);
+                $command?->handle($user_id);
             }
         }
 

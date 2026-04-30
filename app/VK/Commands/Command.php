@@ -16,5 +16,10 @@ abstract class Command
         $this->messageService = $messageService;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     abstract public function handle(int $user_id);
 }

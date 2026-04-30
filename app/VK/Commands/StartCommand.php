@@ -16,7 +16,7 @@ class StartCommand extends Command
      */
     public function handle(int $user_id): void
     {
-        $keyboard = new KeyboardDTO([
+        $buttons = [
             [new ButtonDTO(
                 label: 'Образовательное руководство',
                 payload: json_encode(['command' => 'materials']),
@@ -37,10 +37,12 @@ class StartCommand extends Command
                 label: 'Дневник размышлений',
                 payload: json_encode(['command' => 'diary']),
             )],
-        ]);
+        ];
 
-        $message = 'Добро пожаловать в это всеобъемлющее руководство по управлению стрессом при совмещении множества обязанностей. Этот курс поможет вам развить устойчивость и навыки эмоциональной саморегуляции для успеха в требовательной академической и профессиональной среде.';
+        $message = "Добро пожаловать в это всеобъемлющее руководство по управлению стрессом при совмещении множества обязанностей. \n\n Этот курс поможет вам развить устойчивость и навыки эмоциональной саморегуляции для успеха в требовательной академической и профессиональной среде.";
 
-        $this->messageService->send($user_id, $message, $keyboard);
+        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, false));
+
+        $this->messageService->send($user_id, 'Меню:', new KeyboardDTO($buttons, false, true));
     }
 }
