@@ -21,5 +21,5 @@ abstract class Command
         return $this->name;
     }
 
-    abstract public function handle(int $user_id);
+    abstract public function handle(int $user_id, ?object $payload);
 }

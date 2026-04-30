@@ -14,7 +14,7 @@ class StartCommand extends Command
     /**
      * @throws ConnectionException
      */
-    public function handle(int $user_id): void
+    public function handle(int $user_id, ?object $payload = null): void
     {
         $buttons = [
             [new ButtonDTO(

@@ -30,7 +30,7 @@ class CallbackController extends Controller
 
             if (!empty($payload->command ?? null)) {
                 $command = $commandFactory->make($payload->command);
-                $command?->handle($user_id);
+                $command?->handle($user_id, $payload);
             }
         }
 
