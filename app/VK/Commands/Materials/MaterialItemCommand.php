@@ -43,6 +43,6 @@ class MaterialItemCommand extends Command
 
         $message = $material->title . "\n\n" . $material->text;
 
-        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, true, true));
+        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
     }
 }
