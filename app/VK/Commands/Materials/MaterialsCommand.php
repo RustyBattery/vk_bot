@@ -22,11 +22,11 @@ class MaterialsCommand extends Command
 
         $chunks = $materials->chunk(6);
 
-        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:\n\n";
+        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу.";
 
-        foreach ($materials as $material) {
-            $message .= $material->id . ". " . $material->title . "\n\n";
-        }
+//        foreach ($materials as $material) {
+//            $message .= $material->id . ". " . $material->title . "\n\n";
+//        }
 
         $message .= "\n\nРазделы:";
 

@@ -36,7 +36,6 @@ class MaterialItemCommand extends Command
 
             $buttons[] = [new ButtonDTO(
                 label: $label,
-                type: 'callback',
                 payload: json_encode(['command' => 'material_block', 'data' => ['id' => $block->id]]),
             )];
         }
