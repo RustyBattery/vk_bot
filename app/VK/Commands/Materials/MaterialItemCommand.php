@@ -36,12 +36,13 @@ class MaterialItemCommand extends Command
 
             $buttons[] = [new ButtonDTO(
                 label: $label,
+                type: 'callback',
                 payload: json_encode(['command' => 'material_block', 'data' => ['id' => $block->id]]),
             )];
         }
 
         $message = $material->title . "\n\n" . $material->text;
 
-        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
+        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, true, true));
     }
 }
