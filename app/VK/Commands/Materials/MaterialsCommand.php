@@ -24,12 +24,6 @@ class MaterialsCommand extends Command
 
         $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу.";
 
-//        foreach ($materials as $material) {
-//            $message .= $material->id . ". " . $material->title . "\n\n";
-//        }
-
-        $message .= "\n\nВыберете раздел для изучения:";
-
         foreach ($chunks as $chunk) {
             $buttons = [];
 
