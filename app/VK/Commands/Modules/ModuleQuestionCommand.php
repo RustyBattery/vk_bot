@@ -54,6 +54,8 @@ class ModuleQuestionCommand extends Command
 
             if ($attempt) {
                 $message = $this->getResultMessage($attempt);
+                $attempt->status = 'finished';
+                $attempt->save();
             } else {
                 $message = "Позже здесь будет результат тестирования";
             }
