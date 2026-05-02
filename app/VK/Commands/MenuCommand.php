@@ -39,6 +39,6 @@ class MenuCommand extends Command
             )],
         ];
 
-        $this->messageService->send($user_id, 'Возможности бота:', new KeyboardDTO($buttons, false, true));
+        $this->messageService->send($user_id, 'Возможности бота:', new KeyboardDTO($buttons, false, false));
     }
 }
