@@ -24,7 +24,7 @@ class ProgressCommand extends Command
             $attempt = ModuleAttempts::query()->where('user_id', $user_id)
                 ->where('module_id', $module->id)
                 ->where('status', 'finished')
-                ->orderBy('updated_at')->first();
+                ->orderByDesc('updated_at')->first();
 
             $result = $attempt ? $attempt->scores . "/" . $attempt->total_scores : "-";
 
