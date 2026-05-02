@@ -20,15 +20,9 @@ class MaterialsCommand extends Command
     {
         $materials = Material::all();
 
-        $chunks = $materials->chunk(6);
+        $chunks = $materials->chunk(10);
 
-        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу. \n\nСодержание:\n\n";
-
-        foreach ($materials as $material) {
-            $message .= $material->id . ". " . $material->title . "\n\n";
-        }
-
-        $message .= "\n\nРазделы:";
+        $message = "Прочитайте это всеобъемлющее руководство, чтобы понять основы управления стрессом. Каждый раздел основывается на предыдущем, чтобы дать вам полную основу.";
 
         foreach ($chunks as $chunk) {
             $buttons = [];
@@ -46,7 +40,7 @@ class MaterialsCommand extends Command
                 )];
             }
 
-            $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
+            $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, true, false));
 
             $message = "Разделы:";
         }

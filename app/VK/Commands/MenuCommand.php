@@ -1,33 +1,21 @@
 <?php
 
-namespace App\VK\Commands\Materials;
+namespace App\VK\Commands;
 
-use App\Models\MaterialBlock;
-use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
 use App\VK\DTO\KeyboardDTO;
 use Illuminate\Http\Client\ConnectionException;
 
-class MaterialBlockCommand extends Command
+class MenuCommand extends Command
 {
-    protected string $name = 'material_block';
-    protected string $value = '';
+    protected string $name = 'menu';
+    protected string $value = 'Меню';
 
     /**
      * @throws ConnectionException
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
-        $id = $payload->data->id ?? null;
-
-        if (!$id) {
-            return;
-        }
-
-        $block = MaterialBlock::find($id);
-
-        $message = $block->title . "\n\n" . $block->text;
-
         $buttons = [
             [new ButtonDTO(
                 label: 'Образовательное руководство',
@@ -51,6 +39,6 @@ class MaterialBlockCommand extends Command
             )],
         ];
 
-        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, false));
+        $this->messageService->send($user_id, 'Возможности бота:', new KeyboardDTO($buttons, false, false));
     }
 }
