@@ -37,9 +37,9 @@ class PracticesCommand extends Command
         $averageStressBefore = $practices->count() ? (string) round($amountStressBefore / $practices->count(), 1) : "-";
         $averageStressAfter = $practices->count() ? (string) round($amountStressAfter / $practices->count(), 1) : "-";
 
-        $message .= "Средн. снижение стресса:" . $averageStressReduction . "\n";
-        $message .= "Средн. уровень до:" . $averageStressBefore . "\n";
-        $message .= "Средн. уровень после:" . $averageStressAfter . "\n";
+        $message .= "Средн. снижение стресса:  " . -$averageStressReduction . "\n";
+        $message .= "Средн. уровень до:  " . $averageStressBefore . "\n";
+        $message .= "Средн. уровень после:  " . $averageStressAfter . "\n";
 
         $message .= "\n\n";
 
