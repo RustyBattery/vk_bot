@@ -7,6 +7,7 @@ use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
 use App\VK\DTO\KeyboardDTO;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Log;
 
 class ModuleStartCommand extends Command
 {
@@ -23,6 +24,8 @@ class ModuleStartCommand extends Command
         $message = "Начать тестирование \"" . $module->title . "\"?";
 
         $question_ids = $module->questions->pluck('id');
+
+        Log::debug('question_ids', [$question_ids]);
 
         $buttons = [
             [new ButtonDTO(
