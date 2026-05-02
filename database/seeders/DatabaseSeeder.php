@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Practice;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MaterialSeeder::class,
             ModuleSeeder::class,
+            PracticeSeeder::class,
         ]);
     }
 }
