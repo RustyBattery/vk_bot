@@ -11,6 +11,6 @@ class ModuleAnswer extends Model
 {
     public function question(): BelongsTo
     {
-        return $this->belongsTo(ModuleQuestion::class);
+        return $this->belongsTo(ModuleQuestion::class, 'question_id');
     }
 }
