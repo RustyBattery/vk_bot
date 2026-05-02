@@ -32,10 +32,11 @@ class ModuleQuestionCommand extends Command
             $attempt = ModuleAttempts::find($attempt_id);
 
             if (empty($attempt)) {
+                $module = $question->module;
                 $attempt = ModuleAttempts::query()->create([
                     'user_id' => $user_id,
-                    'module_id' => $question->module_id,
-                    'total_scores' => $question->answers()->count(),
+                    'module_id' => $module->id,
+                    'total_scores' => $module->questions->count(),
                 ]);
             }
 
