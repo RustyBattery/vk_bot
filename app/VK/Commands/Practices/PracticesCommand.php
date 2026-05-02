@@ -19,10 +19,27 @@ class PracticesCommand extends Command
     public function handle(int $user_id, ?object $payload = null): void
     {
         $message = "Статистика:\n\n";
-        $message .= "Всего сессий:" . UserPractice::where('user_id', $user_id)->count() . "\n";
-        $message .= "Средн. снижение стресса:" . null . "\n";
-        $message .= "Средн. уровень до:" . null . "\n";
-        $message .= "Средн. уровень после:" . null . "\n";
+
+        $practices = UserPractice::where('user_id', $user_id)->get();
+        $message .= "Всего сессий:" . $practices->count() . "\n";
+
+        $amountStressReduction = 0;
+        $amountStressBefore = 0;
+        $amountStressAfter = 0;
+
+        foreach ($practices as $practice) {
+            $amountStressReduction += $practice->stress_after - $practice->stress_before;
+            $amountStressBefore += $practice->stress_before;
+            $amountStressAfter += $practice->stress_after;
+        }
+
+        $averageStressReduction = $practices->count() ? (string) round($amountStressReduction / $practices->count(), 1) : "-";
+        $averageStressBefore = $practices->count() ? (string) round($amountStressBefore / $practices->count(), 1) : "-";
+        $averageStressAfter = $practices->count() ? (string) round($amountStressAfter / $practices->count(), 1) : "-";
+
+        $message .= "Средн. снижение стресса:" . $averageStressReduction . "\n";
+        $message .= "Средн. уровень до:" . $averageStressBefore . "\n";
+        $message .= "Средн. уровень после:" . $averageStressAfter . "\n";
 
         $message .= "\n\n";
 
