@@ -37,7 +37,7 @@ class ModulesCommand extends Command
 
             $buttons[] = [new ButtonDTO(
                 label: $label,
-                payload: json_encode(['command' => 'start_test', 'data' => ['id' => $module->id]]),
+                payload: json_encode(['command' => 'module_start', 'data' => ['id' => $module->id]]),
             )];
         }
 
