@@ -33,12 +33,8 @@ class PracticesCommand extends Command
                 label: 'История практики',
                 payload: json_encode(['command' => 'practice_history']),
             )],
-            [new ButtonDTO(
-                label: 'Меню',
-                payload: json_encode(['command' => 'menu']),
-            )],
         ];
 
-        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, false));
+        $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, false, true));
     }
 }
