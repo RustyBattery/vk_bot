@@ -25,7 +25,7 @@ class ModuleQuestionCommand extends Command
 
         $remaining_question_ids = $payload->data->remaining_questions;
 
-        if (empty($question_ids)) {
+        if (empty($remaining_question_ids)) {
             // todo формируем результат тестирования
 
             $message = "Позже здесь будет результат тестирования";
