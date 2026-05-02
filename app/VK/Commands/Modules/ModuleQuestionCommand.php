@@ -125,6 +125,8 @@ class ModuleQuestionCommand extends Command
                     } else {
                         $message .= "❌\n";
                     }
+                } else {
+                    $message .= "\n";
                 }
             }
             $message .= "ℹ️ " . $question->explanation . "\n\n";
