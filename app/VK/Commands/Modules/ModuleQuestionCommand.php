@@ -47,12 +47,12 @@ class ModuleQuestionCommand extends Command
         $answers = $question->answers->shuffle();
 
         $message = $question->question . "\n\n";
-        $message .= "Варианты ответа:" . "\n\n";
+        $message .= "Варианты ответа:" . "\n";
 
         $buttons = [];
 
         foreach ($answers as $answer) {
-            $message .= $answer->value . "\n\n";
+            $message .= " - " . $answer->value . "\n";
 
             $label = $answer->value;
             if (mb_strlen($label) > 40) {
