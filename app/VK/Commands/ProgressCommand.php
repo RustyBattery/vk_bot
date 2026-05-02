@@ -16,7 +16,7 @@ class ProgressCommand extends Command
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
-        $message = "Ваш прогресс\n\n";
+        $message = "Ваш прогресс:\n\n";
 
         $modules = Module::all();
 
