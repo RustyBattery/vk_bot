@@ -360,7 +360,7 @@ class ModuleSeeder extends Seeder
 
             foreach ($module['questions'] as $question) {
                 $newQuestion = $newModule->questions()->create([
-                    'question' => '',
+                    'question' => $question['question'],
                     'explanation' => $question['explanation'],
                 ]);
 
