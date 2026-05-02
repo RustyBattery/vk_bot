@@ -2,6 +2,7 @@
 
 namespace App\VK\Commands\Practices;
 
+use App\Models\UserPractice;
 use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
 use App\VK\DTO\KeyboardDTO;
@@ -18,7 +19,7 @@ class PracticesCommand extends Command
     public function handle(int $user_id, ?object $payload = null): void
     {
         $message = "Статистика:\n\n";
-        $message .= "Всего сессий:" . null . "\n";
+        $message .= "Всего сессий:" . UserPractice::where('user_id', $user_id)->count() . "\n";
         $message .= "Средн. снижение стресса:" . null . "\n";
         $message .= "Средн. уровень до:" . null . "\n";
         $message .= "Средн. уровень после:" . null . "\n";
