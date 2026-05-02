@@ -23,9 +23,7 @@ class ModuleStartCommand extends Command
 
         $message = "Начать тестирование \"" . $module->title . "\"?";
 
-        $question_ids = $module->questions->pluck('id');
-
-        Log::debug('question_ids', [$question_ids]);
+        $question_ids = $module->questions->pluck('id')->toArray();
 
         $buttons = [
             [new ButtonDTO(
