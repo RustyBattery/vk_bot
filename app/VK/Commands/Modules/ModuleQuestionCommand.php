@@ -3,6 +3,8 @@
 namespace App\VK\Commands\Modules;
 
 use App\Models\Module;
+use App\Models\ModuleAnswer;
+use App\Models\ModuleAttempts;
 use App\Models\ModuleQuestion;
 use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
@@ -19,16 +21,41 @@ class ModuleQuestionCommand extends Command
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
+        $attempt = null;
+
         if (!empty($payload->data->last_question)) {
-            // todo пишем в базу ответ пользователя
+            $question = ModuleQuestion::find($payload->data->last_question->id);
+            $answer = ModuleAnswer::find($payload->data->last_question->answer);
+
+            $attempt_id = $payload->data->attempt_id ?? null;
+
+            $attempt = ModuleAttempts::find($attempt_id);
+
+            if (empty($attempt)) {
+                $attempt = ModuleAttempts::query()->create([
+                    'user_id' => $user_id,
+                    'module_id' => $question->module_id,
+                    'total_scores' => $question->answers()->count(),
+                ]);
+            }
+
+            $attempt->answers()->attach($answer->id);
+
+            if ($answer->is_correct) {
+                $attempt->scores++;
+                $attempt->save();
+            }
         }
 
         $remaining_question_ids = $payload->data->remaining_questions;
 
         if (empty($remaining_question_ids)) {
-            // todo формируем результат тестирования
 
-            $message = "Позже здесь будет результат тестирования";
+            if ($attempt) {
+                $message = $this->getResultMessage($attempt);
+            } else {
+                $message = "Позже здесь будет результат тестирования";
+            }
 
             $buttons = [
                 [new ButtonDTO(
@@ -68,12 +95,41 @@ class ModuleQuestionCommand extends Command
                         'last_question' => [
                             'id' => $question->id,
                             'answer' => $answer->id
-                        ]
+                        ],
+                        'attempt_id' => $attempt->id ?? null,
                     ]
                 ]),
             )];
         }
 
         $this->messageService->send($user_id, $message, new KeyboardDTO($buttons, true, false));
+    }
+
+    private function getResultMessage(ModuleAttempts $attempt): string
+    {
+        $message = "Ваш результат " . $attempt->scores . "/" . $attempt->total_scores . "\n\n";
+
+        $module = $attempt->module()->first();
+        $questions = $module->questions()->get();
+
+        $attempt_answer_ids = $attempt->answers()->get()->pluck('id')->toArray();
+
+        foreach ($questions as $question) {
+            $message .= $question->question . "\n";
+            $answers = $question->answers()->get();
+            foreach ($answers as $answer) {
+                $message .= " - " . $answer->value;
+                if (in_array($answer->id, $attempt_answer_ids)) {
+                    if ($answer->is_correct) {
+                        $message .= "✅\n";
+                    } else {
+                        $message .= "❌\n";
+                    }
+                }
+            }
+            $message .= "ℹ️ " . $question->explanation . "\n\n";
+        }
+
+        return $message;
     }
 }
