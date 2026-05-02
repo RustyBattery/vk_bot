@@ -18,10 +18,10 @@ class PracticesCommand extends Command
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
-        $message = "Статистика:\n\n";
+        $message = "Статистика\n\n";
 
         $practices = UserPractice::where('user_id', $user_id)->get();
-        $message .= "Всего сессий:" . $practices->count() . "\n";
+        $message .= "Всего сессий:  " . $practices->count() . "\n";
 
         $amountStressReduction = 0;
         $amountStressBefore = 0;
