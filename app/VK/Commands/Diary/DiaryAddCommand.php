@@ -98,7 +98,7 @@ class DiaryAddCommand extends Command
 
         $buttons = [
             [new ButtonDTO(
-                label: 'Отмена',
+                label: 'Меню',
                 payload: json_encode(['command' => 'menu']),
             )],
         ];
