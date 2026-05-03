@@ -6,6 +6,7 @@ use App\Models\Entry;
 use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
 use App\VK\DTO\KeyboardDTO;
+use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
 
 class DiaryHistoryCommand extends Command
@@ -22,8 +23,10 @@ class DiaryHistoryCommand extends Command
 
         $entries = Entry::query()->where('user_id', $user_id)->get();
 
+        Carbon::setLocale('ru');
+
         foreach ($entries as $entry) {
-            $message .= $entry->updated_at->format('j F Y \г. в H:i') . "\n";
+            $message .= $entry->updated_at->translatedFormat('j F Y \г. в H:i') . "\n";
             $message .= $entry->module->id . ". " . $entry->module->title . "\n";
             $message .= $entry->text . "\n\n";
         }
