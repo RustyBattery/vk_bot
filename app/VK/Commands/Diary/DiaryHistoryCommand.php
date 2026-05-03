@@ -2,6 +2,7 @@
 
 namespace App\VK\Commands\Diary;
 
+use App\Models\Entry;
 use App\VK\Commands\Command;
 use App\VK\DTO\ButtonDTO;
 use App\VK\DTO\KeyboardDTO;
@@ -17,9 +18,21 @@ class DiaryHistoryCommand extends Command
      */
     public function handle(int $user_id, ?object $payload = null): void
     {
-        $message = "Ваши записи будет доступны позже\n\n";
+        $message = "Ваши записи:\n\n";
+
+        $entries = Entry::query()->where('user_id', $user_id)->get();
+
+        foreach ($entries as $entry) {
+            $message .= $entry->module->id . ". " . $entry->module->title . "\n";
+            $message .= $entry->text . "\n";
+            $message .= $entry->updated_at . "\n\n";
+        }
 
         $buttons = [
+            [new ButtonDTO(
+                label: 'Добавить запись',
+                payload: json_encode(['command' => 'diary_add', 'data' => ['step' => DiaryAddCommand::STEP_SELECT_MODULE]]),
+            )],
             [new ButtonDTO(
                 label: 'Меню',
                 payload: json_encode(['command' => 'menu']),
