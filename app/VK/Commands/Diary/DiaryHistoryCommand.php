@@ -23,9 +23,9 @@ class DiaryHistoryCommand extends Command
         $entries = Entry::query()->where('user_id', $user_id)->get();
 
         foreach ($entries as $entry) {
+            $entry->updated_at->format('j F Y \г. в H:i') . "\n";
             $message .= $entry->module->id . ". " . $entry->module->title . "\n";
-            $message .= $entry->text . "\n";
-            $message .= $entry->updated_at . "\n\n";
+            $message .= $entry->text . "\n\n";
         }
 
         $buttons = [
