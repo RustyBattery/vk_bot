@@ -11,7 +11,8 @@ return [
         'module_start' => \App\VK\Commands\Modules\ModuleStartCommand::class,
         'module_question' => \App\VK\Commands\Modules\ModuleQuestionCommand::class,
         'progress' => \App\VK\Commands\ProgressCommand::class,
-        'practices' => \App\VK\Commands\PracticesCommand::class,
+        'practices' => \App\VK\Commands\Practices\PracticesCommand::class,
+        'practice_add' => \App\VK\Commands\Practices\PracticeAddCommand::class,
         'diary' => \App\VK\Commands\DiaryCommand::class,
     ],
 ];
