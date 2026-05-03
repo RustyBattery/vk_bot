@@ -99,6 +99,14 @@ class DiaryAddCommand extends Command
 
         $buttons = [
             [new ButtonDTO(
+                label: 'Добавить запись',
+                payload: json_encode(['command' => 'diary_add', 'data' => ['step' => $this::STEP_SELECT_MODULE]]),
+            )],
+            [new ButtonDTO(
+                label: 'Мои записи',
+                payload: json_encode(['command' => 'diary_history']),
+            )],
+            [new ButtonDTO(
                 label: 'Меню',
                 payload: json_encode(['command' => 'menu']),
             )],
