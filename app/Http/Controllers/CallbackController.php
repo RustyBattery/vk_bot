@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CallbackRequest;
+use App\Models\Entry;
+use App\VK\Commands\Diary\DiaryAddCommand;
 use App\VK\Factories\CommandFactory;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CallbackController extends Controller
@@ -31,6 +35,15 @@ class CallbackController extends Controller
             if (!empty($payload->command ?? null)) {
                 $command = $commandFactory->make($payload->command);
                 $command?->handle($user_id, $payload);
+            }
+
+            $state = Cache::get('state-' . $user_id, null);
+
+            if (!empty($state)) {
+                if (str_starts_with($state, 'waiting_entry-')) {
+                    $command = $commandFactory->make('diary_add');
+                    $command->add_text($user_id, substr($state, strlen('waiting_entry-')), $text);
+                }
             }
         }
 
