@@ -21,7 +21,7 @@ class PracticeHistoryCommand extends Command
     {
         $message = "Мои практики\n\n";
 
-        $practices = UserPractice::where('user_id', $user_id)->get();
+        $practices = UserPractice::where('user_id', $user_id)->orderByDesc('updated_at')->get();
 
         Carbon::setLocale('ru');
 

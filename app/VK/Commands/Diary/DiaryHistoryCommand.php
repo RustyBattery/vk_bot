@@ -21,7 +21,7 @@ class DiaryHistoryCommand extends Command
     {
         $message = "Ваши записи:\n\n";
 
-        $entries = Entry::query()->where('user_id', $user_id)->get();
+        $entries = Entry::query()->where('user_id', $user_id)->orderByDesc('updated_at')->get();
 
         Carbon::setLocale('ru');
 
