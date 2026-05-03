@@ -13,6 +13,9 @@ return [
         'progress' => \App\VK\Commands\ProgressCommand::class,
         'practices' => \App\VK\Commands\Practices\PracticesCommand::class,
         'practice_add' => \App\VK\Commands\Practices\PracticeAddCommand::class,
-        'diary' => \App\VK\Commands\DiaryCommand::class,
+        'practice_history' => \App\VK\Commands\Practices\PracticeHistoryCommand::class,
+        'diary' => \App\VK\Commands\Diary\DiaryCommand::class,
+        'diary_add' => \App\VK\Commands\Diary\DiaryAddCommand::class,
+        'diary_history' => \App\VK\Commands\Diary\DiaryHistoryCommand::class,
     ],
 ];
