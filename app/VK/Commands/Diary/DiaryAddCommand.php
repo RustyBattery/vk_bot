@@ -52,7 +52,7 @@ class DiaryAddCommand extends Command
             $buttons[] = [new ButtonDTO(
                 label: $label,
                 payload: json_encode([
-                    'command' => 'practice_add',
+                    'command' => 'diary_add',
                     'data' => [
                         'step' => self::STEP_SAVE_MODULE,
                         'module_id' => $module->id,
